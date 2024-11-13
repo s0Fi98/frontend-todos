@@ -4,7 +4,7 @@ import Add from '../assets/add.svg';
 
 const D = () => {
   return (
-    <div className="w-full h-screen bg-slate-800 flex flex-col justify-center items-center">
+    <div className="w-full bg-slate-800 flex flex-col justify-center items-center">
     <div className="flex flex-row justify-center items-center gap-4 p-4 w-1/2 bg-white rounded-lg shadow-lg">
       <div className="w-4/5">
         <input
