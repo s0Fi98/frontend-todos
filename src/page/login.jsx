@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import Create from "../assets/create.svg";
@@ -10,6 +10,25 @@ const A = () => {
 
   const handleEye = () => {
     setEyeBtn(!eyeBtn);
+  };
+
+  const [loginData, setLoginData] = useState({
+    userId: "",
+    password: "",
+  });
+  const processLogin = () => {
+    console.log(loginData);
+  };
+
+  const passwordRef = useRef(null);
+  const runOnClick = (e) => {
+    if (e.key === "Enter") {
+      if (e.target.id === "userId") {
+        passwordRef.current.focus();
+      } else if (e.target.id === "password") {
+        processLogin();
+      }
+    }
   };
 
   return (
@@ -25,8 +44,13 @@ const A = () => {
           <input
             type="text"
             placeholder="Enter User ID"
-            id="userID"
+            id="userId"
             className="p-2 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500"
+            value={loginData.userId}
+            onChange={(e) =>
+              setLoginData({ ...loginData, [e.target.id]: e.target.value })
+            }
+            onKeyDown={runOnClick}
           />
         </div>
         <div className="flex flex-col gap-2 w-full">
@@ -39,6 +63,12 @@ const A = () => {
               placeholder="Enter Password"
               id="password"
               className="p-2 rounded-lg border-2 border-gray-400 w-full focus:outline-none focus:border-indigo-500"
+              value={loginData.password}
+              onChange={(e) =>
+                setLoginData({ ...loginData, [e.target.id]: e.target.value })
+              }
+              onKeyDown={runOnClick}
+              ref={passwordRef}
             />
             <Link
               type="button"
@@ -52,17 +82,18 @@ const A = () => {
             </Link>
           </div>
         </div>
-        <button
-          className="w-full text-center p-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 hover:scale-105 transition-all duration-500"
-          onClick={() => alert("Logging in...")}
-        >
-          LOGIN
-        </button>
-        <div className="w-full text-end text-sm">
+        <div className="w-full text-end text-xs font-medium text-gray-600">
           <h5 className="underline hover:cursor-pointer hover:text-indigo-500">
             Forgot Password?
           </h5>
         </div>
+        <button
+          className="w-full text-center p-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 hover:scale-105 transition-all duration-500"
+          onClick={processLogin}
+        >
+          LOGIN
+        </button>
+
         <div className="w-full flex flex-row justify-center items-center gap-4">
           <span>Create User:</span>
           <Link to="/create">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import EyeOpen from "../assets/eyeopen.svg";
@@ -13,6 +13,31 @@ const B = () => {
     setEyeBtn(!eyeBtn);
   };
 
+  const [signupData, setSignupData] = useState({
+    name: '', email: '', userId: '', password: ''
+  });
+
+  const saveData = () => {
+    console.log(signupData);
+  }
+
+  const emailRef = useRef(null);
+  const userRef = useRef(null);
+  const passwordRef = useRef(null);
+  const handlePress = (e) => {
+    if (e.key === "Enter"){
+      if (e.target.id === "name"){
+        emailRef.current.focus();
+      } else if (e.target.id === "email"){
+        userRef.current.focus();
+      } else if (e.target.id === "userId"){
+        passwordRef.current.focus();
+      } else if (e.target.id = "password"){
+        saveData();
+      } 
+    }
+  }
+
   return (
     <div className="w-full h-screen flex flex-col items-center bg-slate-800">
       <div className="flex flex-col justify-center items-center bg-white rounded-lg w-2/5 mt-10 p-7 gap-5 font-mono shadow-lg">
@@ -26,8 +51,11 @@ const B = () => {
           <input
             type="text"
             placeholder="Enter your name"
-            id="userID"
+            id="name"
             className="p-2 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500"
+            value={signupData.name}
+            onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+            onKeyDown={handlePress}
           />
         </div>
         <div className="flex flex-col gap-2 w-full">
@@ -37,8 +65,12 @@ const B = () => {
           <input
             type="email"
             placeholder="Enter email ID"
-            id="userID"
+            id="email"
             className="p-2 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500"
+            value={signupData.email}
+            onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+            onKeyDown={handlePress}
+            ref={emailRef}
           />
         </div>
         <div className="flex flex-col gap-2 w-full">
@@ -48,8 +80,12 @@ const B = () => {
           <input
             type="text"
             placeholder="Enter User ID"
-            id="userID"
+            id="userId"
             className="p-2 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500"
+            value={signupData.userId}
+            onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+            onKeyDown={handlePress}
+            ref={userRef}
           />
         </div>
         <div className="flex flex-col gap-2 w-full">
@@ -62,6 +98,10 @@ const B = () => {
               placeholder="Enter Password"
               id="password"
               className="p-2 rounded-lg border-2 border-gray-400 w-full focus:outline-none focus:border-indigo-500"
+              value={signupData.password}
+              onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+              onKeyDown={handlePress}
+              ref={passwordRef}
             />
             <Link
               type="button"
@@ -88,7 +128,7 @@ const B = () => {
           </div>
           <button
             className="text-center p-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 hover:scale-105 transition-all duration-500 w-1/2"
-            onClick={() => alert("Logging in...")}
+            onClick={saveData}
           >
             LOGIN
           </button>
