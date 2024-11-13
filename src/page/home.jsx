@@ -38,15 +38,14 @@ const C = () => {
           <h5>Completed Tasks</h5>
           <button
             type="button"
-            className="cursor-pointer bg-white rounded-full p-1 hover:scale-110 transition-all duration-300"
+            className="cursor-pointer bg-white w-10 rounded-full p-1 hover:scale-110 transition-all duration-300"
           >
-            100
+            0
           </button>
         </div>
       </div>
 
       <div className="w-full flex flex-col gap-2">
-        <E />
         <E />
       </div>
     </div>
