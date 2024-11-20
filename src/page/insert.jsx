@@ -5,10 +5,16 @@ import Add from '../assets/add.svg';
 const D = () => {
 
   const [todoInput, setTodoInput] = useState({
-    id: '', todoText: ""
+     todoText: ""
   })
   const saveTodo = () => {
+    sessionStorage.setItem('todoText', todoInput.todoText);
     console.log(todoInput);
+  }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      saveTodo();
+    }
   }
 
   return (
@@ -22,6 +28,7 @@ const D = () => {
           className="p-3 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500 w-full"
           value={todoInput.todoText}
           onChange={(e)=>setTodoInput({...todoInput, [e.target.id] : e.target.value})}
+          onKeyDown={(e)=>handleKeyDown(e)}
         />
       </div>
       <div className="w-1/5">

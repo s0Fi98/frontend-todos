@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Done from '../assets/done.svg';
 import Delete from '../assets/delete.svg';
@@ -14,8 +14,13 @@ const E = () => {
     }
 
     const [cardData, setCardData] = useState([{
-        id: "1", todoText: "Jump like a Monkey..!"
+        // id: "1", todoText: "Jump like a Monkey..!"
+        todoText: ''
     }])
+
+    useEffect(()=>{
+        sessionStorage.getItem("todoText")
+    },[])
 
   return (
     <div className='w-full bg-slate-800 flex flex-col justify-center items-center font-mono'>

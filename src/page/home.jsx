@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import D from "./insert.jsx";
 import E from "./card.jsx";
 import Logo from "../assets/todo-logo.png";
 
 const C = () => {
+
+  const [sessionedData, setSessionedData] = useState('')
+  useEffect(() => {
+    const user = sessionStorage.getItem('userId');
+    setSessionedData(user);
+  }, [])
+  
+
   return (
     <div className="w-full h-screen flex flex-col items-center bg-slate-800 font-mono gap-6">
       
@@ -19,7 +27,7 @@ const C = () => {
         />
         <h5>Todos</h5>
       </span>
-        <h5 className="font-medium text-lg text-indigo-300">Welcome, User</h5>
+        <h5 className="font-medium text-lg text-indigo-300">Welcome, {sessionedData}</h5>
       </div>
 
       <D />

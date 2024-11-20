@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import EyeOpen from "../assets/eyeopen.svg";
 import EyeClosed from "../assets/eyeclosed.svg";
@@ -7,36 +7,59 @@ import Back from "../assets/login.svg";
 import Google from "../assets/google.svg";
 
 const B = () => {
+  const navigate = useNavigate();
   const [eyeBtn, setEyeBtn] = useState(false);
 
   const handleEye = () => {
     setEyeBtn(!eyeBtn);
   };
 
+  const loginThroughGoogle = () => {
+    alert("created through google");
+  };
+
+  // const [storedData, setStoredData] = useState({
+  //   name: "",
+  //   email: "",
+  //   userId: "",
+  //   password: "",
+  // })
+
   const [signupData, setSignupData] = useState({
-    name: '', email: '', userId: '', password: ''
+    name: "",
+    email: "",
+    userId: "",
+    password: "",
   });
 
-  const saveData = () => {
-    console.log(signupData);
-  }
+  const saveData = (e) => {
+    // debugger;
+    e.preventDefault();
+    // setStoredData({...signupData})
+    if (signupData.name && signupData.email && signupData.userId && signupData.password) {
+      sessionStorage.setItem("userId", signupData.userId)
+      sessionStorage.setItem("password", signupData.password)
+      navigate('/')
+    } else{console.log('Cant store data...', e)}
+  };
 
+  // ----- Enter key logic -----
   const emailRef = useRef(null);
   const userRef = useRef(null);
   const passwordRef = useRef(null);
   const handlePress = (e) => {
-    if (e.key === "Enter"){
-      if (e.target.id === "name"){
+    if (e.key === "Enter") {
+      if (e.target.id === "name") {
         emailRef.current.focus();
-      } else if (e.target.id === "email"){
+      } else if (e.target.id === "email") {
         userRef.current.focus();
-      } else if (e.target.id === "userId"){
+      } else if (e.target.id === "userId") {
         passwordRef.current.focus();
-      } else if (e.target.id = "password"){
+      } else if (e.target.id === "password") {
         saveData();
-      } 
+      }
     }
-  }
+  };
 
   return (
     <div className="w-full h-screen flex flex-col items-center bg-slate-800">
@@ -54,7 +77,9 @@ const B = () => {
             id="name"
             className="p-2 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500"
             value={signupData.name}
-            onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+            onChange={(e) =>
+              setSignupData({ ...signupData, name: e.target.value })
+            }
             onKeyDown={handlePress}
           />
         </div>
@@ -68,7 +93,9 @@ const B = () => {
             id="email"
             className="p-2 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500"
             value={signupData.email}
-            onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+            onChange={(e) =>
+              setSignupData({ ...signupData, email: e.target.value })
+            }
             onKeyDown={handlePress}
             ref={emailRef}
           />
@@ -83,7 +110,9 @@ const B = () => {
             id="userId"
             className="p-2 rounded-lg border-2 border-gray-400 focus:outline-none focus:border-indigo-500"
             value={signupData.userId}
-            onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+            onChange={(e) =>
+              setSignupData({ ...signupData, userId: e.target.value })
+            }
             onKeyDown={handlePress}
             ref={userRef}
           />
@@ -99,7 +128,9 @@ const B = () => {
               id="password"
               className="p-2 rounded-lg border-2 border-gray-400 w-full focus:outline-none focus:border-indigo-500"
               value={signupData.password}
-              onChange={(e)=>setSignupData({...signupData, [e.target.id] : e.target.value})}
+              onChange={(e) =>
+                setSignupData({ ...signupData, password: e.target.value })
+              }
               onKeyDown={handlePress}
               ref={passwordRef}
             />
@@ -123,19 +154,34 @@ const B = () => {
                 src={Google}
                 alt="Google"
                 className="hover:scale-110 transition-all duration-300"
+                onClick={loginThroughGoogle}
               />
             </Link>
           </div>
           <button
-            className="text-center p-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 hover:scale-105 transition-all duration-500 w-1/2"
+            className={`text-center p-2 text-white rounded-lg w-1/2
+              ${
+                !signupData.name ||
+                !signupData.email ||
+                !signupData.userId ||
+                !signupData.password
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-slate-600 hover:bg-slate-700 hover:scale-105 transition-all duration-500"
+              }`}
             onClick={saveData}
+            disabled={
+              !signupData.name ||
+              !signupData.email ||
+              !signupData.userId ||
+              !signupData.password
+            }
           >
             LOGIN
           </button>
         </div>
         <div className="w-full flex flex-row justify-center items-center gap-4 text-gray-700">
           <span>Already a User:</span>
-          <Link to={'/'}>
+          <Link to={"/"}>
             <img
               src={Back}
               alt="Create User"

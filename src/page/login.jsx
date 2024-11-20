@@ -1,23 +1,33 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Create from "../assets/create.svg";
 import EyeOpen from "../assets/eyeopen.svg";
 import EyeClosed from "../assets/eyeclosed.svg";
 
 const A = () => {
-  const [eyeBtn, setEyeBtn] = useState(false);
+  const navigate = useNavigate();
 
+  const [eyeBtn, setEyeBtn] = useState(false);
   const handleEye = () => {
     setEyeBtn(!eyeBtn);
   };
 
+  const defaultUserId = sessionStorage.getItem("userId");
+  const defaultPassword = sessionStorage.getItem("password");
+  
   const [loginData, setLoginData] = useState({
     userId: "",
     password: "",
   });
-  const processLogin = () => {
-    console.log(loginData);
+  const processLogin = (event) => {
+    event.preventDefault();
+    if (loginData.userId === defaultUserId && loginData.password === defaultPassword) {
+      sessionStorage.setItem('userId', loginData.userId);
+      navigate('/main')
+    } else {
+      alert("Who the fuck are you?")
+    }
   };
 
   const passwordRef = useRef(null);
@@ -26,10 +36,14 @@ const A = () => {
       if (e.target.id === "userId") {
         passwordRef.current.focus();
       } else if (e.target.id === "password") {
-        processLogin();
+        processLogin(e);
       }
     }
   };
+
+  // ----- Button disabled logic -----
+  const isBtnDisable = !loginData.userId || !loginData.password;
+  const disabledClass = isBtnDisable ? "bg-gray-400 cursor-not-allowed" : "bg-slate-600 hover:bg-slate-700 hover:scale-105 transition-all duration-500 "
 
   return (
     <div className="w-full h-screen flex flex-col items-center bg-slate-800">
@@ -88,7 +102,9 @@ const A = () => {
           </h5>
         </div>
         <button
-          className="w-full text-center p-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 hover:scale-105 transition-all duration-500"
+          className={`w-full text-center p-2 text-white rounded-lg transition-all duration-500 ${disabledClass}`}
+          aria-disabled={isBtnDisable}
+          disabled={isBtnDisable}
           onClick={processLogin}
         >
           LOGIN
