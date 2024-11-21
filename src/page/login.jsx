@@ -26,7 +26,7 @@ const A = () => {
       sessionStorage.setItem('userId', loginData.userId);
       navigate('/main')
     } else {
-      alert("Who the fuck are you?")
+      alert("Kaun hoon bae?")
     }
   };
 

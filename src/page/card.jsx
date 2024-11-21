@@ -5,6 +5,14 @@ import Delete from '../assets/delete.svg';
 
 const E = () => {
 
+    useEffect(()=>{
+        const getTodoText = sessionStorage.getItem("todoText");
+        if (getTodoText) {
+            setCardData([{todoText: getTodoText}])
+        }
+    },[])
+
+
     const doneTodo = () => {
         alert("done");
     }
@@ -14,18 +22,13 @@ const E = () => {
     }
 
     const [cardData, setCardData] = useState([{
-        // id: "1", todoText: "Jump like a Monkey..!"
         todoText: ''
     }])
 
-    useEffect(()=>{
-        sessionStorage.getItem("todoText")
-    },[])
-
   return (
     <div className='w-full bg-slate-800 flex flex-col justify-center items-center font-mono'>
-      {cardData.map((value) => (
-          <div key={value.id}
+      {cardData.map((value, index) => (
+          <div key={index}
           className='flex flex-row justify-between items-center gap-4 p-4 w-1/2 bg-white rounded-lg hover:translate-x-5 transition-all duration-300'>
           <div className=''>
               <img src={Done} alt="done" onClick={doneTodo} className='cursor-pointer hover:scale-110'/>

@@ -33,7 +33,6 @@ const B = () => {
   });
 
   const saveData = (e) => {
-    // debugger;
     e.preventDefault();
     // setStoredData({...signupData})
     if (signupData.name && signupData.email && signupData.userId && signupData.password) {
