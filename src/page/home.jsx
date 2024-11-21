@@ -13,6 +13,15 @@ const C = () => {
   }, [])
   
 
+  useEffect(()=>{
+    const getTodoText = sessionStorage.getItem("todoText");
+    if (getTodoText) {
+        setCardData([{todoText: getTodoText}])
+    } else { console.log("getTodoText not working..");}
+});
+
+const [cardData, setCardData] = useState()
+
   return (
     <div className="w-full h-screen flex flex-col items-center bg-slate-800 font-mono gap-6">
       
@@ -39,7 +48,7 @@ const C = () => {
             type="button"
             className="cursor-pointer bg-white w-10 rounded-full p-1 hover:scale-110 transition-all duration-300"
           >
-            0
+            {cardData && cardData.length}
           </button>
         </div>
         <div className="flex flex-row justify-between items-center gap-2 p-2 font-medium text-indigo-300 text-lg">
@@ -54,7 +63,7 @@ const C = () => {
       </div>
 
       <div className="w-full flex flex-col gap-2">
-        <E />
+        <E  cardData={cardData}/>
       </div>
     </div>
   );

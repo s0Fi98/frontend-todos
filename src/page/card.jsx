@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react'
 import Done from '../assets/done.svg';
 import Delete from '../assets/delete.svg';
 
-const E = () => {
+const E = ({cardData}) => {
 
-    useEffect(()=>{
-        const getTodoText = sessionStorage.getItem("todoText");
-        if (getTodoText) {
-            setCardData([{todoText: getTodoText}])
-        }
-    },[])
+    // useEffect(()=>{
+    //     const getTodoText = sessionStorage.getItem("todoText");
+    //     if (getTodoText) {
+    //         setCardData([{todoText: getTodoText}])
+    //     } else { console.log("getTodoText not working..");}
+    // });
+
+    // const [cardData, setCardData] = useState()
 
 
     const doneTodo = () => {
@@ -21,13 +23,9 @@ const E = () => {
         alert("delete");
     }
 
-    const [cardData, setCardData] = useState([{
-        todoText: ''
-    }])
-
   return (
     <div className='w-full bg-slate-800 flex flex-col justify-center items-center font-mono'>
-      {cardData.map((value, index) => (
+      {cardData && cardData.map((value, index) => (
           <div key={index}
           className='flex flex-row justify-between items-center gap-4 p-4 w-1/2 bg-white rounded-lg hover:translate-x-5 transition-all duration-300'>
           <div className=''>
